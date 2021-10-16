@@ -19,14 +19,38 @@ class shorturlscontroller extends Controller
 
     public function store(Request $request){
 
+        
+
         $request->validate([
             'longurl' => 'required|url'
-         ]);
+        ]);
 
-        $shorturl = new shorturl();
+        if($request->longurl){
+
+            if(auth()->user()){
+                $shorturl =auth()->user()->urls()->create([
+                    'longurl'=>$request->longurl
+                ]);
+            }else{
+                $shorturl =shorturl::create([
+                    'longurl' =>$request->longurl
+                ]);
+
+            }
+
+            if($shorturl){
+                $shorturl->update([
+                    'shorturl'=>str::random(10)
+                ]);
+            }
+        }
+
+
+
+        /*$shorturl = new shorturl();
         $shorturl->longurl = $request->input('longurl');
         $shorturl->shorturl = str::random(10);
-        $shorturl->save();
+        $shorturl->save();*/
 
         session()->flash('success', 'Shorten Link Generated Successfully! ');
        
