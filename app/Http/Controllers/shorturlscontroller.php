@@ -26,7 +26,6 @@ class shorturlscontroller extends Controller
         ]);
 
         if($request->longurl){
-
             if(auth()->user()){
                 $shorturl =auth()->user()->urls()->create([
                     'longurl'=>$request->longurl
@@ -35,18 +34,13 @@ class shorturlscontroller extends Controller
                 $shorturl =shorturl::create([
                     'longurl' =>$request->longurl
                 ]);
-
             }
-
             if($shorturl){
                 $shorturl->update([
                     'shorturl'=>str::random(10)
                 ]);
             }
         }
-
-
-
         /*$shorturl = new shorturl();
         $shorturl->longurl = $request->input('longurl');
         $shorturl->shorturl = str::random(10);
