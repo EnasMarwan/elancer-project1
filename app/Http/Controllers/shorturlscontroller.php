@@ -61,7 +61,8 @@ class shorturlscontroller extends Controller
         $shortlink=shorturl::where('shorturl' , '=' , $shorturl);
 
        if($shortlink -> exists()){
-        return redirect($shortlink->value('longurl'));
+            $shortlink->increment('clicks');
+            return redirect($shortlink->value('longurl'));
        }
        else{
            return 'not exists';
