@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateShorturlsTable extends Migration
+class CreateClicksTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,13 @@ class CreateShorturlsTable extends Migration
      */
     public function up()
     {
-        Schema::create('shorturls', function (Blueprint $table) {
+        Schema::create('clicks', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->nullable()->constraiend('users');
-            $table->string('longurl');
-            $table->string('shorturl')->nullable();
-            $table->string('clicks')->default(0);
+            $table->foreignId('shorturl_id')
+                ->constrained('shorturls')
+                ->cascadeOnDelete(); 
+            $table->string('browser');   
+            $table->string('ip');   
             $table->timestamps();
         });
     }
@@ -30,6 +31,6 @@ class CreateShorturlsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('shorturls');
+        Schema::dropIfExists('clicks');
     }
 }
